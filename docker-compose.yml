@@ -2,10 +2,10 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: 'franEjercicio'
+      MYSQL_DATABASE: 'movies-db'
       MYSQL_USER: 'Javier'
-      MYSQL_PASSWORD: '24601'
-      MYSQL_ROOT_PASSWORD: '24601'
+      MYSQL_PASSWORD: '1234'
+      MYSQL_ROOT_PASSWORD: '1234'
     volumes:
       # Montamos un volumen para MySQL para no perder los datos de bd
       - ./volumenes/mysql:/var/lib/mysql
