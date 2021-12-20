@@ -14,19 +14,19 @@ const Actors = db.Actor;
 
 
 const moviesController = {
-    'list': (req, res) => {
+    list: (req, res) => {
         db.Movie.findAll()
             .then(movies => {
                 res.render('moviesList.ejs', {movies})
             })
     },
-    'detail': (req, res) => {
+    detail: (req, res) => {
         db.Movie.findByPk(req.params.id)
             .then(movie => {
                 res.render('moviesDetail.ejs', {movie});
             });
     },
-    'new': (req, res) => {
+    new: (req, res) => {
         db.Movie.findAll({
             order : [
                 ['release_date', 'DESC']
@@ -37,7 +37,7 @@ const moviesController = {
                 res.render('newestMovies', {movies});
             });
     },
-    'recomended': (req, res) => {
+    recomended: (req, res) => {
         db.Movie.findAll({
             where: {
                 rating: {[db.Sequelize.Op.gte] : 8}
@@ -52,10 +52,17 @@ const moviesController = {
     },
     //Aqui dispongo las rutas para trabajar con el CRUD
     add: function (req, res) {
-        
+        db.Generos.findAll()
+        .then(function(generos){
+            return res.render("moviesAdd", {generos:generos});
+        }).catch(err => {
+            res.send(err)
+        })
     },
     create: function (req,res) {
-
+        const { title, rating, awards, release_date, length } = req.body;
+        db.Movie.create({ title, rating, awards, release_date, length })
+            .then(() => { res.redirect('/movies') })
     },
     edit: function(req,res) {
 

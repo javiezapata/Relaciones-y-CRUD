@@ -3,13 +3,13 @@ const sequelize = db.sequelize;
 
 
 const genresController = {
-    'list': (req, res) => {
+    list: (req, res) => {
         db.Genre.findAll()
             .then(genres => {
                 res.render('genresList.ejs', {genres})
             })
     },
-    'detail': (req, res) => {
+    detail: (req, res) => {
         db.Genre.findByPk(req.params.id)
             .then(genre => {
                 res.render('genresDetail.ejs', {genre});

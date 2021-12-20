@@ -10,6 +10,6 @@ services:
       # Montamos un volumen para MySQL para no perder los datos de bd
       - ./volumenes/mysql:/var/lib/mysql
     expose:
-      - 3308
+      - 3307
     ports:
       - 3308:3306
