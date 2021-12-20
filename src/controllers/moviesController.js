@@ -65,16 +65,50 @@ const moviesController = {
             .then(() => { res.redirect('/movies') })
     },
     edit: function(req,res) {
+        const {id} = req.params
+        let pedidoPelicula = db.Movie.findByPk(id)
+        let pedidoGeneros = db.Genre.findAll()
+
+        Promise.all([pedidoPelicula, pedidoGeneros])
+            .then(([pelicula, generos]) => {
+                console.log(generos)
+                res.render('moviesEdit', {Movie: pelicula, generos: generos})
+            })
+            .catch(err=> {
+                res.send(err)
+            })
 
     },
     update: function (req,res) {
-
+        const {title, rating, awards, release_date, length, genre_id} = req.body
+        db.Movie.update({
+            title, rating, awards, release_date,
+            length, genre_id
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(result => {
+                res.redirect('/movies')
+            })
+            .catch(err=> {
+                res.send(err)
+            })
     },
     delete: function (req,res) {
 
+        db.Movie.findByPk(req.params.id)
+        .then(movie => {
+            res.render('moviesDelete.ejs', {movie});
+        });
+
     },
     destroy: function (req,res) {
-
+        Movies.destroy({
+            where: { id: req.params.id}
+        })
+            res.redirect('/movies');
     }
 }
 
